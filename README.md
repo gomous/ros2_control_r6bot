@@ -83,7 +83,7 @@ Now move your joysticks to move the arm!
 | Right Stick Y     | Joint 4              |
 | L2/R2 (Triggers)  | Joint 5, Joint 6     |
 
-> You can modify mappings in [`arm_teleop.py`](robotic_arm_6_dof/scripts/arm_teleop.py)
+> You can modify mappings in [`arm_teleop.py`](src/ros2_control_demo_example_7/scripts/arm_teleop.py)
 
 ---
 
