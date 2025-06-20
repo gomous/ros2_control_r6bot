@@ -43,17 +43,22 @@ endforeach()
 
 ## COMPILE
 add_executable(send_trajectory reference_generator/send_trajectory.cpp)
-target_link_libraries(send_trajectory PUBLIC
-  ${trajectory_msgs_TARGETS}
-  kdl_parser::kdl_parser
-  rclcpp::rclcpp
+ament_target_dependencies(send_trajectory
+  rclcpp
+  trajectory_msgs
+  kdl_parser
 )
-
 add_library(
   ros2_control_demo_example_7
   SHARED
   hardware/r6bot_hardware.cpp
   controller/r6bot_controller.cpp
+)
+add_executable(send_trajectory reference_generator/send_trajectory.cpp)
+ament_target_dependencies(send_trajectory
+  rclcpp
+  trajectory_msgs
+  kdl_parser
 )
 
 target_compile_features(ros2_control_demo_example_7 PUBLIC cxx_std_17)

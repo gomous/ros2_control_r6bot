@@ -1,26 +1,35 @@
 FROM ros:jazzy-ros-base
 
-# Install basic tools and colcon
+ENV DEBIAN_FRONTEND=noninteractive
+ENV CMAKE_PREFIX_PATH=/opt/ros/jazzy:$CMAKE_PREFIX_PATH
+
+# Install all system and ROS 2 dependencies
 RUN apt update && apt install -y \
-    python3-colcon-common-extensions \
     python3-pip \
+    python3-dev \
+    build-essential \
+    libatlas-base-dev \
     git \
+    python3-colcon-common-extensions \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-control-cmake \
+    ros-jazzy-ros2-control-test-assets \
+    ros-jazzy-hardware-interface \
+    ros-jazzy-controller-interface \
     ros-jazzy-controller-manager \
     ros-jazzy-joint-state-broadcaster \
     ros-jazzy-joy \
-    ros-jazzy-test-msgs \
+    ros-jazzy-test-msgs \   
+    ros-dev-tools \
     && rm -rf /var/lib/apt/lists/*
 
+# Just install Python dependencies you need
+RUN python3 -m pip install --break-system-packages numpy cython
 
-# Copy your code into the container
-COPY . /ros2_ws/src/ros2_control_r6bot
+# Setup workspace
+WORKDIR /ros2_ws
+COPY . ./src
 
-# Build the workspace
-RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && \
-    cd /ros2_ws && \
-    colcon build --symlink-install"
+RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && colcon build --symlink-install"
 
-# Source the workspace at container start
 CMD ["/bin/bash"]
