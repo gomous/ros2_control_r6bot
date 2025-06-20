@@ -101,7 +101,7 @@ You should see the joint positions update.
 
 ## 📽️ Demo
 
-![Demo](docs/demo.gif)
+![Demo](output.gif)
 
 > Place your GIF here: `docs/demo.gif`  
 > To create a GIF: record screen with `peek` or `OBS`, convert to GIF using ffmpeg or [ezgif](https://ezgif.com/)
