@@ -48,6 +48,7 @@ source install/setup.bash
 ### 4. Launch the controller + RViz
 
 ```bash
+source install/setup.bash
 ros2 launch ros2_control_demo_example_7 r6bot_controller.launch.py
 ```
 
@@ -56,6 +57,7 @@ ros2 launch ros2_control_demo_example_7 r6bot_controller.launch.py
 ### 5. Run the joystick node
 
 ```bash
+source install/setup.bash
 ros2 run joy joy_node
 ```
 
