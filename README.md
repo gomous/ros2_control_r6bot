@@ -66,6 +66,7 @@ ros2 run joy joy_node
 ### 6. Run the teleop controller
 
 ```bash
+source install/setup.bash
 ros2 run ros2_control_demo_example_7 arm_teleop.py
 ```
 
