@@ -21,7 +21,7 @@ This project demonstrates a complete pipeline for simulating and teleoperating a
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ros2_control_r6bot.git
+git clone https://github.com/gomous/ros2_control_r6bot.git
 cd ros2_control_r6bot
 ```
 
