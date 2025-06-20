@@ -103,8 +103,8 @@ You should see the joint positions update.
 
 ![Demo](output.gif)
 
-> Place your GIF here: `output.gif`  
-> To create a GIF: record screen with `peek` or `OBS`, convert to GIF using ffmpeg or [ezgif](https://ezgif.com/)
+<!-- > Place your GIF here: `output.gif`  
+> To create a GIF: record screen with `peek` or `OBS`, convert to GIF using ffmpeg or [ezgif](https://ezgif.com/) -->
 
 ---
 
