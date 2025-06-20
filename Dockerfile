@@ -6,10 +6,13 @@ RUN apt update && apt install -y \
     python3-pip \
     git \
     ros-jazzy-ros2-control \
+    ros-jazzy-ros2-control-cmake \
     ros-jazzy-controller-manager \
     ros-jazzy-joint-state-broadcaster \
     ros-jazzy-joy \
+    ros-jazzy-test-msgs \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Copy your code into the container
 COPY . /ros2_ws/src/ros2_control_r6bot
