@@ -1,35 +1,44 @@
-FROM ros:jazzy-ros-base
+ARG ROS_DISTRO=rolling
+
+FROM ros:${ROS_DISTRO}-ros-base
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV CMAKE_PREFIX_PATH=/opt/ros/jazzy:$CMAKE_PREFIX_PATH
 
-# Install all system and ROS 2 dependencies
-RUN apt update && apt install -y \
-    python3-pip \
-    python3-dev \
-    build-essential \
-    libatlas-base-dev \
-    git \
-    python3-colcon-common-extensions \
-    ros-jazzy-ros2-control \
-    ros-jazzy-ros2-control-cmake \
-    ros-jazzy-ros2-control-test-assets \
-    ros-jazzy-hardware-interface \
-    ros-jazzy-controller-interface \
-    ros-jazzy-controller-manager \
-    ros-jazzy-joint-state-broadcaster \
-    ros-jazzy-joy \
-    ros-jazzy-test-msgs \   
-    ros-dev-tools \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && \
+    : "remove cache" && \
+    apt-get autoremove -y -qq && \
+    rm -rf /var/lib/apt/lists/*
 
-# Just install Python dependencies you need
-RUN python3 -m pip install --break-system-packages numpy cython
+# Create workspace directory
+RUN mkdir -p /home/ros2_ws/src
 
-# Setup workspace
-WORKDIR /ros2_ws
-COPY . ./src
+# Copy source code
+COPY . /home/ros2_ws/src/ros2_control_demos
 
-RUN /bin/bash -c "source /opt/ros/jazzy/setup.bash && colcon build --symlink-install"
+# Install dependencies
+RUN cd /home/ros2_ws \
+    && . /opt/ros/${ROS_DISTRO}/setup.sh \
+    && rosdep update --rosdistro ${ROS_DISTRO} \
+    # uncomment this line if you want to use the latest version of ros2_control
+    # && vcs import src --input https://raw.githubusercontent.com/ros-controls/ros2_control_ci/master/ros_controls.rolling-on-$ROS_DISTRO.repos \
+    && apt-get update \
+    && rosdep install --from-paths src -i -y --rosdistro ${ROS_DISTRO} \
+    --skip-keys ros-${ROS_DISTRO}-joint-state-publisher-gui --skip-keys ros-${ROS_DISTRO}-rviz2 \
+    && \
+    : "remove cache" && \
+    apt-get autoremove -y -qq && \
+    rm -rf /var/lib/apt/lists/*
 
-CMD ["/bin/bash"]
+# Build the workspace
+RUN cd /home/ros2_ws \
+    && . /opt/ros/${ROS_DISTRO}/setup.sh \
+    && colcon build --cmake-args -DBUILD_TESTING=OFF --symlink-install
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["ros2", "launch", "ros2_control_demo_example_7", "r6bot_controller.launch.py"]
