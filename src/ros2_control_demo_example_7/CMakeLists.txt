@@ -54,12 +54,6 @@ add_library(
   hardware/r6bot_hardware.cpp
   controller/r6bot_controller.cpp
 )
-add_executable(send_trajectory reference_generator/send_trajectory.cpp)
-ament_target_dependencies(send_trajectory
-  rclcpp
-  trajectory_msgs
-  kdl_parser
-)
 
 target_compile_features(ros2_control_demo_example_7 PUBLIC cxx_std_17)
 target_include_directories(ros2_control_demo_example_7 PUBLIC
