@@ -1,0 +1,23 @@
+ls /home/ros2_ws/install/ros2_control_demo_example_7/share/ros2_control_demo_example_7/launch/
+
+ros2 launch ros2_control_demo_example_7 r6bot_controller.launch.py 
+
+sudo docker run -it \
+  --network=host \
+  --ipc=host \
+  -v /home/mousum/docker_files:/my_docker_files \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  --device=/dev/dri \
+  --env="QT_X11_NO_MITSHM=1" \
+  --env="DISPLAY=$DISPLAY" \
+  --env="XDG_RUNTIME_DIR=/tmp/runtime-root" \
+  --privileged \
+  6dofarm:latest \
+  bash
+
+
+source /opt/ros/jazzy/setup.bash
+ros2 run joy joy_node
+
+apt update && apt install -y ros-jazzy-joy 
+
