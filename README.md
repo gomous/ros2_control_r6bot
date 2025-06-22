@@ -16,60 +16,59 @@ This project demonstrates a complete pipeline for simulating and teleoperating a
 
 ---
 
-## 🚀 Quick Start
+## 🐳 Docker-Based Quick Start
 
-### 1. Clone the repo
+### 1. Build the Docker Image
 
 ```bash
-git clone https://github.com/gomous/ros2_control_r6bot.git
-cd ros2_control_r6bot
+sudo docker build -t 6dofarm:latest .
 ```
 
-### 2. Install dependencies
-
-Install ROS 2 Jazzy and required packages:
+### 2. Run the Container
 
 ```bash
-sudo apt update
-sudo apt install ros-jazzy-ros2-control ros-jazzy-controller-manager ros-jazzy-joint-state-broadcaster ros-jazzy-joy
+sudo docker run -it \
+  --network=host \
+  --ipc=host \
+  -v /home/mousum/docker_files:/my_docker_files \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  --device=/dev/dri \
+  --env="QT_X11_NO_MITSHM=1" \
+  --env="DISPLAY=$DISPLAY" \
+  --env="XDG_RUNTIME_DIR=/tmp/runtime-root" \
+  --privileged \
+  6dofarm:latest \
+  bash
 ```
 
 ---
 
-### 3. Build the workspace
+### 3. Run the System Inside the Container
+
+#### 🖥 Terminal 1: Launch the Controller + RViz
 
 ```bash
-colcon build --symlink-install
-source install/setup.bash
-```
-
----
-
-### 4. Launch the controller + RViz
-
-```bash
+source /opt/ros/jazzy/setup.bash
+source /home/ros2_ws/install/setup.bash
 ros2 launch ros2_control_demo_example_7 r6bot_controller.launch.py
 ```
 
----
-
-### 5. Run the joystick node
+#### 🎮 Terminal 2: Start Joystick Driver
 
 ```bash
+source /opt/ros/jazzy/setup.bash
 ros2 run joy joy_node
 ```
 
-> You must move the joystick to trigger /joy messages.
+> You must move the joystick to trigger `/joy` messages.
 
----
-
-### 6. Run the teleop controller
+#### 🤖 Terminal 3: Run Teleop Controller
 
 ```bash
+source /opt/ros/jazzy/setup.bash
+source /home/ros2_ws/install/setup.bash
 ros2 run ros2_control_demo_example_7 arm_teleop.py
 ```
-
-Now move your joysticks to move the arm!
 
 ---
 
@@ -95,16 +94,11 @@ To confirm the robot is moving:
 ros2 topic echo /joint_states
 ```
 
-You should see the joint positions update.
-
 ---
 
 ## 📽️ Demo
 
 ![Demo](output.gif)
-
-<!-- > Place your GIF here: `output.gif`  
-> To create a GIF: record screen with `peek` or `OBS`, convert to GIF using ffmpeg or [ezgif](https://ezgif.com/) -->
 
 ---
 
