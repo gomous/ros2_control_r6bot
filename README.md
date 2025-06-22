@@ -131,9 +131,9 @@ You should see the joint positions update.
 
 ---
 
-## 📽 Demo
+## 📽️ Demo
 
-
+![Demo](output.gif)
 
 ---
 
