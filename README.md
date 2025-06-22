@@ -43,7 +43,7 @@ sudo apt install ros-jazzy-ros2-control ros-jazzy-controller-manager ros-jazzy-j
 ```bash
 sudo docker build -t 6dofarm:latest .
 ```
-make sure Your DISPLAY is forwarded correctly:
+Make sure Your DISPLAY is forwarded correctly:
 ```echo $DISPLAY
 xhost +local:docker
 ```
