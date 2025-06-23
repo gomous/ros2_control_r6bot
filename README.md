@@ -36,7 +36,9 @@ sudo apt install ros-jazzy-ros2-control ros-jazzy-controller-manager ros-jazzy-j
 
 ---
 
-## 🚧 Docker-Based Setup (Optional)
+## 🚧 Docker-Based Setup (Recommended)
+
+*I was able to run the non docker version after lots of troubleshooting, hence docker-based setup is recommended*
 
 ### 1. Build the Docker Image
 
